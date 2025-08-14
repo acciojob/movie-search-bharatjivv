@@ -7,7 +7,9 @@ const MovieSearch = () => {
 
   const API_KEY = "99eb9fd1";
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
+
     if (!query.trim()) {
       setError("Please enter a movie name.");
       setMovies([]);
@@ -31,25 +33,28 @@ const MovieSearch = () => {
       });
   };
 
-    
   return (
     <div className="movie-search">
       <h2>Movie Search</h2>
       <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Enter movie name..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
+        <form onSubmit={handleSearch}>
+          <input
+            type="text"
+            placeholder="Enter movie name..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <button>Search</button>
+        </form>
       </div>
 
       {error && <p className="error">{error}</p>}
 
       <div className="results">
+        <ul>
         {movies.map((movie) => (
           <div key={movie.imdbID} className="movie-card">
+            <li>
             <img
               src={
                 movie.Poster !== "N/A"
@@ -60,8 +65,10 @@ const MovieSearch = () => {
             />
             <h3>{movie.Title}</h3>
             <p>{movie.Year}</p>
+            </li>
           </div>
         ))}
+        </ul>
       </div>
     </div>
   );
